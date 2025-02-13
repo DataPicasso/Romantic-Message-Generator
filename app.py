@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos Meta-Llama-3.1-8B-Instruct para generación de texto
-    return pipeline('text-generation', model='meta-llama/Meta-Llama-3.1-8B-Instruct')
+    # Usamos el modelo Qwen/Qwen2.5-7B-Instruct para generación de texto
+    return pipeline('text-generation', model='Qwen/Qwen2.5-7B-Instruct')
 
 ACCESS_CODE = "1234"
 
@@ -28,13 +28,12 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        ideas_str = ", ".join(EXPRESIONES)
+        expresiones_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
-        # Prompt en español, claro y enfocado en generar un mensaje de amor sin referencias externas
         prompt = (
             "Escribe un mensaje de amor, romántico, personal y emotivo para expresar mi amor incondicional a mi pareja. "
-            "No incluyas referencias a textos, concursos u otra información externa. "
-            "Inspírate en estas ideas, sin repetirlas literalmente: " + ideas_str +
+            "No incluyas referencias a información externa. "
+            "Utiliza como inspiración estas ideas, sin repetirlas literalmente: " + expresiones_str +
             "." + delimiter
         )
         
@@ -43,7 +42,7 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=300,
+                    max_length=250,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
