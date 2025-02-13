@@ -3,12 +3,10 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos mrm8488/spanish-gpt2, que es un modelo público en español
     return pipeline('text-generation', model='mrm8488/spanish-gpt2')
 
 ACCESS_CODE = "1234"
 
-# Ideas de inspiración para el mensaje romántico
 EXPRESIONES = [
     "tu sonrisa ilumina mis días",
     "tu mirada me hace soñar",
@@ -30,14 +28,11 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         ideas_str = ", ".join(EXPRESIONES)
-        # Definimos un delimitador para extraer únicamente el mensaje final
         delimiter = "\nMensaje final:"
-        # Prompt muy enfocado, con instrucciones explícitas para evitar cualquier referencia externa
         prompt = (
-            "Escribe un mensaje de amor apasionado, personal y totalmente centrado en expresar mis sentimientos de amor y admiración hacia mi pareja. "
-            "El mensaje debe estar escrito en un tono emotivo y poético, sin incluir ningún tipo de referencia a otros temas (como economía, política, tecnología, libros o noticias). "
-            "Inspírate en estas ideas sin repetirlas literalmente: " + ideas_str + "."
-            + delimiter
+            "Genera directamente un mensaje de amor apasionado, personal y emotivo para mi pareja. "
+            "El mensaje debe expresar mi amor incondicional de forma poética y sincera, sin incluir instrucciones ni explicaciones sobre el proceso. "
+            "Inspírate en estas ideas, pero solo produce el mensaje final: " + ideas_str + "." + delimiter
         )
         
         try:
