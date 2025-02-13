@@ -36,7 +36,7 @@ if user_code == ACCESS_CODE:
         
         # Nuevo prompt con instrucciones más claras para obtener un mensaje coherente
         prompt = (
-            "Crea un mensaje romántico, coherente y original para expresar todo mi amor por mi pareja. "
+            "Crea un mensaje romántico de la aplicacion para la persona que lo lee, coherente y original para expresar todo mi amor hacia mi pareja. "
             "Utiliza como inspiración las siguientes ideas, pero no las repitas textualmente: "
             f"{expresiones_str}. Mensaje:"
         )
