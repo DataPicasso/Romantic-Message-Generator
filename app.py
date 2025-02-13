@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Utiliza el modelo "PlanTL-GOB-ES/gpt2-base-spanish"
-    return pipeline('text-generation', model='PlanTL-GOB-ES/gpt2-base-spanish')
+    # Usamos Meta-Llama-3.1-8B-Instruct para generación de texto
+    return pipeline('text-generation', model='meta-llama/Meta-Llama-3.1-8B-Instruct')
 
 ACCESS_CODE = "1234"
 
@@ -28,12 +28,13 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        expresiones_str = ", ".join(EXPRESIONES)
+        ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
+        # Prompt en español, claro y enfocado en generar un mensaje de amor sin referencias externas
         prompt = (
-            "Escribe un mensaje de amor, romántico, personal, coherente y emotivo, "
-            "dirigido únicamente a mi pareja. No incluyas referencias a libros, concursos o textos administrativos. "
-            "Inspírate en las siguientes ideas sin repetirlas textualmente: " + expresiones_str +
+            "Escribe un mensaje de amor, romántico, personal y emotivo para expresar mi amor incondicional a mi pareja. "
+            "No incluyas referencias a textos, concursos u otra información externa. "
+            "Inspírate en estas ideas, sin repetirlas literalmente: " + ideas_str +
             "." + delimiter
         )
         
@@ -42,7 +43,7 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=250,
+                    max_length=300,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
