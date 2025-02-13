@@ -15,14 +15,21 @@ EXPRESIONES = [
     "tu mirada me hace soñar",
     "cada instante a tu lado es un regalo",
     "eres mi inspiración",
-    "mi corazón late por ti"
+    "mi corazón late por ti",
+    "eres la luz de mis ojos",
+    "Te amo con mi vida",
+    "Te adoro",
+    "Te amodoro, en un inodoro",
+    "Eres mi bebita",
+    "Eres mi princesita"
+    
 ]
 
 # Solicita al usuario el código de acceso (tipo password)
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    st.success("¡Bienvenido!")
+    st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
         # Combina las expresiones en una cadena
@@ -30,7 +37,7 @@ if user_code == ACCESS_CODE:
         
         # Crea el prompt para que el modelo genere solo el mensaje final
         prompt = (
-            "Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
+            "Genera un mensaje romántico y único para expresar cuánto amo a mi pareja basate en las expresiones de inspiración. "
             f"Expresiones de inspiración: {expresiones_str}. Mensaje:"
         )
         
@@ -44,7 +51,7 @@ if user_code == ACCESS_CODE:
             if "Mensaje:" in mensaje:
                 mensaje = mensaje.split("Mensaje:", 1)[1].strip()
             
-            st.markdown("### Tu mensaje romántico:")
+            st.markdown("### Mensaje:")
             st.write(mensaje)
         except Exception as e:
             st.error(f"Error al generar el mensaje: {e}")
