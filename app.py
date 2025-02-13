@@ -189,12 +189,13 @@ if user_code == ACCESS_CODE:
               # Busca esta sección en el código:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
                     st.balloons()  # <---- ESTA LÍNEA CAMBIAR
+                    # Por esto:
                     st.markdown(f"""
-                    <div style='background:#FFFFFF;padding:25px;border-radius:15px;color:#E91E63;margin:20px 0;border: 2px solid #FF0076;box-shadow: 0 4px 8px rgba(233,30,99,0.1);'>
-                        <h3 style='text-align:center;margin-bottom:20px;'>💌 Mensaje Especial 💌</h3>
-                        <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
+                    <div style='background:#FFFFFF;padding:25px;border-radius:15px;margin:20px 0;border: 2px solid #FF0076;box-shadow: 0 4px 8px rgba(233,30,99,0.1);'>
+                        <h3 style='text-align:center;margin-bottom:20px;color:#B4004E;'>💌 Mensaje Especial 💌</h3>
+                        <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;color:#E91E63;'>{mensaje}</p>
                     </div>
-                    """, unsafe_allow_html=True)
+                    """), unsafe_allow_html=True)
                     st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
                     break
                     
