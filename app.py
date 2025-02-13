@@ -3,7 +3,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 @st.cache_resource
 def load_generator():
-    model_name = "IIC/bert-base-spanish-wwm-cased-finetuned-romantic"
+    model_name = "DeepESP/gpt2-spanish"  # Modelo de generación en español
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
     return pipeline('text-generation', model=model, tokenizer=tokenizer)
@@ -11,54 +11,52 @@ def load_generator():
 ACCESS_CODE = "1234"
 
 EXPRESIONES = [
-    "tu sonrisa ilumina mis días",
-    "tu mirada me hace soñar",
-    "cada instante contigo es un regalo",
-    "eres mi inspiración constante",
-    "mi corazón late al ritmo de tu voz",
-    "en tus ojos encuentro mi hogar",
-    "tu amor es mi mayor fortaleza",
-    "contigo el tiempo pierde sentido",
-    "eres la melodía de mi alma",
-    "tus abrazos son mi refugio"
+    "tu sonrisa ilumina mi mundo",
+    "tu mirada despierta mi alma",
+    "contigo el tiempo se detiene",
+    "eres mi paz y mi aventura",
+    "tu amor es mi fortaleza",
+    "en tus brazos encuentro hogar",
+    "cada latido te pertenece",
+    "nuestro amor es mi poema",
+    "eres mi sueño hecho realidad",
+    "juntos escribimos nuestra eternidad"
 ]
 
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    st.success("¡Bienvenida mi amor!")
+    st.success("¡Bienvenida al corazón digital!")
     
-    if st.button("Generar mensaje especial"):
-        prompt = f"Escribe un mensaje romántico coherente de 10 palabras máximo usando estos conceptos: {', '.join(EXPRESIONES)}. El mensaje debe ser:"
+    if st.button("Generar declaración de amor"):
+        prompt = f"Escribe un mensaje romántico en español de máximo 10 palabras usando: {', '.join(EXPRESIONES)}. Mensaje:"
         
         try:
-            with st.spinner("Creando algo único para ti..."):
+            with st.spinner("Creando magia amorosa..."):
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=30,
+                    max_new_tokens=25,
                     do_sample=True,
-                    temperature=0.5,  # Reducido para más coherencia
-                    top_p=0.9,
-                    repetition_penalty=1.3,
-                    num_return_sequences=1,
-                    pad_token_id=generator.tokenizer.eos_token_id
+                    temperature=0.85,
+                    top_k=45,
+                    top_p=0.92,
+                    repetition_penalty=1.25,
+                    num_return_sequences=1
                 )
             
-            full_text = result[0]['generated_text']
-            # Extraer solo la parte nueva del mensaje
-            final_message = full_text.split(prompt)[-1].strip()
-            
+            raw_text = result[0]['generated_text']
+            # Extraer solo el mensaje nuevo
+            final_message = raw_text.split("Mensaje:")[-1].strip()
             # Limpieza y formateo
-            final_message = final_message.split(".")[0].replace('"', '').replace("'", '')
-            words = final_message.split()[:10]
-            final_message = ' '.join(words).capitalize()
+            final_message = final_message.split(".")[0].split("!")[0]
+            final_message = " ".join(final_message.split()[:10]).capitalize()
             
-            st.markdown("### 💌 Mensaje especial:")
-            st.success(f"✨ {final_message} ✨")
+            st.markdown("### 💝 Tu Mensaje Especial")
+            st.success(f"\"{final_message}\"")
             
         except Exception as e:
             st.error(f"Error: {str(e)}")
 else:
     if user_code:
-        st.error("Código incorrecto, prueba con '1234'")
+        st.error("Código incorrecto, el secreto es 1234")
