@@ -163,7 +163,7 @@ st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    st.success("🌟 ¡Bienvenida a tu Generador de Amor Personal! 🌟")
+    st.success("🌟 ¡Bienvenida princesa! 🌟")
     
     with st.expander("✨ Configuración Especial"):
         col1, col2 = st.columns(2)
@@ -205,7 +205,7 @@ st.markdown("""
 }
 </style>
 <div class="footer">
-    ✨ Sistema creado con el corazón por tu eterno admirador ✨<br>
-    💝 Cada mensaje contiene parte de mi alma 💝
+    ✨ Sistema creado con el corazón por tu bebito ✨<br>
+    💝 Cada mensaje contiene parte de mi corazón 💝
 </div>
 """, unsafe_allow_html=True)
