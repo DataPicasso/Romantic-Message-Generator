@@ -32,8 +32,8 @@ if user_code == ACCESS_CODE:
         prompt = (
             "Genera UNICAMENTE un mensaje de amor para mi pareja, "
             "con máximo 10 palabras, sin ningún encabezado, instrucción o comentario. "
-            "Inspírate en estas ideas (sin repetirlas literalmente): " + ideas_str +
-            "." + delimiter
+            "Inspírate en estas ideas (sin repetirlas textualmente): " 
+            + ideas_str + "." + delimiter
         )
         
         try:
@@ -41,18 +41,19 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=100,
+                    max_new_tokens=50,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
-                    repetition_penalty=1.2
+                    repetition_penalty=1.2,
+                    pad_token_id=generator.tokenizer.eos_token_id  # evitar tokens de padding
                 )
             generated_text = result[0]['generated_text']
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
                 final_message = generated_text.strip()
-            # Limitar la salida a 10 palabras
+            # Limita la salida a máximo 10 palabras
             final_message = " ".join(final_message.split()[:10])
             st.markdown("### Mensaje:")
             st.write(final_message)
