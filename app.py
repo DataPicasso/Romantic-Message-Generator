@@ -178,7 +178,7 @@ def generar_mensaje_coherente():
     return mensaje_final
 
 # Interfaz mejorada
-st.set_page_config(page_title="Generador de Amor", page_icon="💖")
+
 
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
