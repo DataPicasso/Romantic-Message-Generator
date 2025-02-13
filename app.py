@@ -175,15 +175,15 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* For all alert messages including st.success */
-    [data-testid="stAlert"] * {
+    /* Override st.success (alert) to force black text */
+    [data-testid="stAlert"].stAlertSuccess,
+    [data-testid="stAlert"].stAlertSuccess * {
         color: black !important;
     }
     /* For the expander header and its contents ("✨ Configuración Especial") */
     [data-testid="stExpander"] * {
         color: black !important;
     }
-    /* Additionally, target the expander button */
     [data-testid="stExpander"] button {
         color: black !important;
     }
