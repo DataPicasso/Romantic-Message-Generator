@@ -172,6 +172,9 @@ st.markdown("""
         color: black;
         border: 2px solid #ff9999;
     }
+    div.stApp {
+        background-color: white;
+    }
 </style>
 """, unsafe_allow_html=True)
 
