@@ -7,11 +7,13 @@ ACCESS_CODE = "1234"
 st.markdown("""
 <style>
 .stApp {
-    background-color: #FFFFFF;
+    background-color: #FFFFFF !important;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    color: #333333 !important;
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 PLANTILLAS = [
     # Plantillas originales mejoradas
