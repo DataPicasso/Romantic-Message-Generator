@@ -16,34 +16,32 @@ EXPRESIONES = [
 # Solicita al usuario el código de acceso (se muestra como contraseña)
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
-# Verifica el código ingresado
 if user_code == ACCESS_CODE:
     st.success("¡Bienvenido!")
     
-    # Botón para generar el mensaje
+    # Instanciamos el pipeline de generación de texto una sola vez
+    generator = pipeline('text-generation', model='datificate/gpt2-small-spanish')
+    
     if st.button("Generar mensaje"):
-        # Combina las expresiones en una sola cadena
+        # Combina las expresiones en una cadena
         expresiones_str = ", ".join(EXPRESIONES)
         
-        # Crea el prompt, pero formatea para separar el input del mensaje generado
+        # Crea el prompt para que el modelo genere solo el mensaje final
         prompt = (
-            f"Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
+            "Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
             f"Expresiones de inspiración: {expresiones_str}. Mensaje:"
         )
         
-        # Crea el pipeline de generación de texto con un modelo en español
-        generator = pipeline('text-generation', model='datificate/gpt2-small-spanish')
-        
-        # Genera el mensaje; puedes ajustar parámetros como max_length y temperature
+        # Genera el mensaje con parámetros ajustables
         resultado = generator(prompt, max_length=60, do_sample=True, temperature=0.8)
         mensaje = resultado[0]['generated_text']
         
-        # Si el resultado incluye el prompt, se separa y se muestra solo el mensaje final.
+        # Extrae la parte del mensaje que sigue a "Mensaje:"
         if "Mensaje:" in mensaje:
             mensaje = mensaje.split("Mensaje:", 1)[1].strip()
         
         st.markdown("### Tu mensaje romántico:")
         st.write(mensaje)
 else:
-    if user_code:  # Si el usuario ya ingresó algo y es incorrecto
+    if user_code:
         st.error("Código de acceso incorrecto.")
