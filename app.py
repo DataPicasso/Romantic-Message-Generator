@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos mrm8488/spanish-gpt2, un modelo en español
-    return pipeline('text-generation', model='mrm8488/spanish-gpt2')
+    # Usamos el modelo de filco306 para generar mensajes de poesía romántica
+    return pipeline('text-generation', model='filco306/gpt2-romantic-poetry-paraphraser')
 
 ACCESS_CODE = "1234"
 
