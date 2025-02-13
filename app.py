@@ -1,10 +1,11 @@
 import streamlit as st
-st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 import random
 import streamlit.components.v1 as components
 
+st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 ACCESS_CODE = "1234"
 
+# CSS centralizado para la app
 st.markdown("""
 <style>
 .stApp {
@@ -12,6 +13,12 @@ st.markdown("""
 }
 p, h1, h2, h3, h4, h5, h6 {
     color: #333333 !important;
+}
+.footer {
+    text-align: center;
+    padding: 15px;
+    color: #E91E63;
+    font-family: cursive;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -212,14 +219,7 @@ else:
 # Sección de footer personalizado
 st.markdown("---")
 st.markdown("""
-<style>
-.footer {
-    text-align: center;
-    padding: 15px;
-    color: #E91E63;
-    font-family: cursive;
-}
-</style>
+
 <div class="footer">
     ✨ Sistema creado con el corazón por tu bebito ✨<br>
     💝 Cada mensaje contiene parte de mi corazón 💝
