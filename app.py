@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos el modelo de filco306 para generar mensajes de poesía romántica
-    return pipeline('text-generation', model='filco306/gpt2-romantic-poetry-paraphraser')
+    # Utiliza el modelo "PahaII/ZeroGen-flickr10k-romantic" para generación de texto
+    return pipeline('text-generation', model='PahaII/ZeroGen-flickr10k-romantic')
 
 ACCESS_CODE = "1234"
 
@@ -28,15 +28,14 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        expresiones_str = ", ".join(EXPRESIONES)
-        # Delimitador para separar el mensaje final del prompt
+        ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\n### Mensaje Final:"
+        # Prompt enfocado para generar únicamente un mensaje de amor
         prompt = (
-            "Genera UNICAMENTE un mensaje de amor para mi pareja, sin ningún encabezado, instrucción, comentario o explicación. "
-            "El mensaje debe ser personal, romántico, emotivo y coherente, expresando mi amor incondicional. "
-            "No incluyas ningún otro tipo de información o referencia externa. "
-            "Inspírate en estas ideas (sin repetirlas textualmente): " + expresiones_str +
-            "." + delimiter
+            "Genera UNICAMENTE un mensaje de amor personal, romántico y emotivo dirigido a mi pareja. "
+            "No incluyas ningún encabezado, instrucción, comentario o información externa. "
+            "Inspírate en las siguientes ideas sin repetirlas textualmente: " 
+            + ideas_str + "." + delimiter
         )
         
         try:
@@ -44,14 +43,13 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=300,
+                    max_length=250,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
                     repetition_penalty=1.2
                 )
             generated_text = result[0]['generated_text']
-            # Extrae únicamente el texto que se encuentra después del delimitador
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
