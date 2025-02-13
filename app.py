@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos el modelo con el identificador en minúsculas
-    return pipeline('text-generation', model='qwen/qwen2.5-7b-instruct')
+    # Pasamos trust_remote_code=True para que se confíe en el código remoto del modelo
+    return pipeline('text-generation', model='Qwen/Qwen2.5-7B-Instruct', trust_remote_code=True)
 
 ACCESS_CODE = "1234"
 
