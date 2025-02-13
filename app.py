@@ -1,9 +1,12 @@
 import streamlit as st
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 @st.cache_resource
 def load_generator():
-    return pipeline('text-generation', model='PahaII/ZeroGen-flickr10k-romantic')
+    model_name = "DeepESP/gpt2-spanish"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    return pipeline('text-generation', model=model, tokenizer=tokenizer)
 
 ACCESS_CODE = "1234"
 
@@ -14,11 +17,10 @@ EXPRESIONES = [
     "eres mi inspiración",
     "mi corazón late por ti",
     "eres la luz de mis ojos",
-    "Te amo con mi vida",
-    "Te adoro",
-    "Te amodoro, en un inodoro",
-    "Eres mi bebita",
-    "Eres mi princesita"
+    "te amo con toda mi alma",
+    "eres mi razón de ser",
+    "contigo el tiempo se detiene",
+    "tu amor es mi fortaleza"
 ]
 
 user_code = st.text_input("Ingrese el código de acceso", type="password")
@@ -27,13 +29,9 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        ideas_str = ", ".join(EXPRESIONES)
-        delimiter = "\n### Mensaje Final:"
         prompt = (
-            "Escribe en español un mensaje de amor, personal, romántico y emotivo, "
-            "con máximo 10 palabras, sin instrucciones ni comentarios adicionales. "
-            "Utiliza como inspiración las siguientes ideas, pero solo su esencia: " 
-            + ideas_str + "." + delimiter
+            "Escribe un mensaje romántico y emotivo de máximo 10 palabras usando estas ideas: " 
+            + ", ".join(EXPRESIONES) + ". Mensaje:"
         )
         
         try:
@@ -41,22 +39,21 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_new_tokens=20,
+                    max_new_tokens=30,
                     do_sample=True,
-                    temperature=0.7,
+                    temperature=0.9,
+                    top_k=50,
                     top_p=0.95,
-                    repetition_penalty=1.2,
-                    pad_token_id=generator.tokenizer.eos_token_id
+                    repetition_penalty=1.5,
+                    num_return_sequences=1
                 )
             generated_text = result[0]['generated_text']
-            if delimiter in generated_text:
-                final_message = generated_text.split(delimiter, 1)[1].strip()
-            else:
-                final_message = generated_text.strip()
-            # Limita la salida a máximo 10 palabras
+            # Extract only the new generated part
+            final_message = generated_text.replace(prompt, "").strip().split(".")[0]
+            # Ensure max 10 words
             final_message = " ".join(final_message.split()[:10])
-            st.markdown("### Mensaje:")
-            st.write(final_message)
+            st.markdown("### Tu mensaje especial:")
+            st.success(f"💖 {final_message} 💖")
         except Exception as e:
             st.error(f"Error al generar el mensaje: {e}")
 else:
