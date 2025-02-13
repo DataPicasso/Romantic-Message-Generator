@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 import random
 import streamlit.components.v1 as components
 
