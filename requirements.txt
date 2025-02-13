@@ -1,4 +1,5 @@
 streamlit==1.25.0
 transformers==4.30.0
+Pillow==10.0.0
 -f https://download.pytorch.org/whl/cpu
 torch==2.2.0
