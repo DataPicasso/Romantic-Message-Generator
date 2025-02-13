@@ -175,12 +175,12 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* Override st.success (alert) to force black text */
-    [data-testid="stAlert"].stAlertSuccess,
-    [data-testid="stAlert"].stAlertSuccess * {
+    /* For st.success, forzamos fondo blanco y texto negro */
+    [data-testid="stAlert"].stAlertSuccess {
+        background-color: white !important;
         color: black !important;
     }
-    /* For the expander header and its contents ("✨ Configuración Especial") */
+    /* Para la cabecera del expander ("✨ Configuración Especial") */
     [data-testid="stExpander"] * {
         color: black !important;
     }
