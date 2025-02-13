@@ -3,7 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    return pipeline('text-generation', model='datificate/gpt2-small-spanish')
+    # Se cambia el modelo a mrm8488/spanish-gpt2
+    return pipeline('text-generation', model='mrm8488/spanish-gpt2')
 
 ACCESS_CODE = "1234"
 
@@ -30,10 +31,10 @@ if user_code == ACCESS_CODE:
         expresiones_str = ", ".join(EXPRESIONES)
         # Delimitador para separar prompt de salida
         delimiter = "\nMensaje final:"
-        # Prompt enfocado: NO incluir referencias a libros, textos, noticias u otros contenidos literarios
+        # Prompt enfocado: instrucciones claras para generar solo el mensaje romántico
         prompt = (
-            "Escribe un mensaje romántico, personal, coherente y original para expresar todo mi amor incondicional a mi pareja. "
-            "No incluyas ninguna referencia a libros, textos, noticias u otra información externa. "
+            "Genera un mensaje romántico, coherente, original y personal dirigido a mi pareja. "
+            "No incluyas referencias a libros, textos o noticias. "
             "Inspírate en las siguientes ideas sin repetirlas literalmente: " + expresiones_str +
             "." + delimiter
         )
@@ -50,7 +51,7 @@ if user_code == ACCESS_CODE:
                     repetition_penalty=1.2
                 )
             generated_text = result[0]['generated_text']
-            # Extrae solo el mensaje generado después del delimitador
+            # Extrae solo la parte generada después del delimitador
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
