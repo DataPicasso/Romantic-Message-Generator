@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Pasamos trust_remote_code=True para que se confíe en el código remoto del modelo
-    return pipeline('text-generation', model='Qwen/Qwen2.5-7B-Instruct', trust_remote_code=True)
+    # Usamos la tarea text2text-generation para Qwen2.5 y se habilita trust_remote_code
+    return pipeline('text2text-generation', model='Qwen/Qwen2.5-7B-Instruct', trust_remote_code=True)
 
 ACCESS_CODE = "1234"
 
@@ -28,12 +28,13 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        expresiones_str = ", ".join(EXPRESIONES)
+        ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
         prompt = (
-            "Escribe un mensaje de amor, romántico, personal, coherente y emotivo para expresar mi amor incondicional a mi pareja. "
-            "No incluyas referencias externas. Utiliza como inspiración estas ideas sin repetirlas textualmente: " 
-            + expresiones_str + "." + delimiter
+            "Genera un mensaje de amor, romántico, personal, coherente y emotivo dirigido a mi pareja. "
+            "No incluyas ninguna referencia externa. "
+            "Inspírate en las siguientes ideas sin repetirlas literalmente: " 
+            + ideas_str + "." + delimiter
         )
         
         try:
@@ -41,7 +42,7 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=250,
+                    max_new_tokens=250,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
