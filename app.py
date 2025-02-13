@@ -157,10 +157,9 @@ def generar_mensaje_coherente():
     
     return mensaje_final
 
-# Interfaz mejorada
+# Configuración de la página y estilos globales
 st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 
-# Global styles: white background, black text, pastel red details.
 st.markdown("""
 <style>
     body {
@@ -175,9 +174,12 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* For st.success, forzamos fondo blanco y texto negro */
-    [data-testid="stAlert"].stAlertSuccess {
+    /* Sobrescribimos los estilos del st.success */
+    div[data-testid="stAlert"].stAlertSuccess {
         background-color: white !important;
+        border: 1px solid #ff9999 !important;
+    }
+    div[data-testid="stAlert"].stAlertSuccess > div {
         color: black !important;
     }
     /* Para la cabecera del expander ("✨ Configuración Especial") */
@@ -193,6 +195,7 @@ st.markdown("""
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
+    # Con los nuevos estilos, este st.success se mostrará con fondo blanco y texto negro
     st.success("🌟 ¡Bienvenida princesa! 🌟")
     
     with st.expander("✨ Configuración Especial"):
@@ -218,7 +221,6 @@ if user_code == ACCESS_CODE:
                     break
             else:
                 st.error("⚠️ ¡Necesito más de tu energía amorosa! Intenta nuevamente")
-
 else:
     if user_code:
         st.error("🔒 Código incorrecto, mi amor")
