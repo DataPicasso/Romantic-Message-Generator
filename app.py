@@ -233,7 +233,7 @@ if user_code == ACCESS_CODE:
                     """, unsafe_allow_html=True)
                     st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
                     break
-                    break
+                    
             else:
                 st.error("⚠️ ¡Necesito más de tu energía amorosa! Intenta nuevamente")
 
