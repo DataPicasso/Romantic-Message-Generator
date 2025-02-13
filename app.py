@@ -3,8 +3,8 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Usamos el modelo Qwen/Qwen2.5-7B-Instruct para generación de texto
-    return pipeline('text-generation', model='Qwen/Qwen2.5-7B-Instruct')
+    # Usamos el modelo con el identificador en minúsculas
+    return pipeline('text-generation', model='qwen/qwen2.5-7b-instruct')
 
 ACCESS_CODE = "1234"
 
@@ -31,10 +31,9 @@ if user_code == ACCESS_CODE:
         expresiones_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
         prompt = (
-            "Escribe un mensaje de amor, romántico, personal y emotivo para expresar mi amor incondicional a mi pareja. "
-            "No incluyas referencias a información externa. "
-            "Utiliza como inspiración estas ideas, sin repetirlas literalmente: " + expresiones_str +
-            "." + delimiter
+            "Escribe un mensaje de amor, romántico, personal, coherente y emotivo para expresar mi amor incondicional a mi pareja. "
+            "No incluyas referencias externas. Utiliza como inspiración estas ideas sin repetirlas textualmente: " 
+            + expresiones_str + "." + delimiter
         )
         
         try:
