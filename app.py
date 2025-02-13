@@ -4,6 +4,15 @@ import streamlit.components.v1 as components
 
 ACCESS_CODE = "1234"
 
+st.markdown("""
+<style>
+.stApp {
+    background-color: #FFFFFF;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 PLANTILLAS = [
     # Plantillas originales mejoradas
     "Para mi {term}: {message}",
@@ -181,7 +190,7 @@ if user_code == ACCESS_CODE:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
                     st.balloons()  # <---- ESTA LÍNEA CAMBIAR
                     st.markdown(f"""
-                    <div style='background:linear-gradient(45deg, #ff0076, #ff6b6b);padding:25px;border-radius:15px;color:white;margin:20px 0;'>
+                    <div style='background:#FFFFFF;padding:25px;border-radius:15px;color:#E91E63;margin:20px 0;border: 2px solid #FF0076;box-shadow: 0 4px 8px rgba(233,30,99,0.1);'>
                         <h3 style='text-align:center;margin-bottom:20px;'>💌 Mensaje Especial 💌</h3>
                         <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
                     </div>
@@ -203,7 +212,7 @@ st.markdown("""
 .footer {
     text-align: center;
     padding: 15px;
-    color: #ff69b4;
+    color: #E91E63;
     font-family: cursive;
 }
 </style>
