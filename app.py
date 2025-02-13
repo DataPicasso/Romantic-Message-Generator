@@ -3,7 +3,6 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
-    # Utiliza el modelo "PahaII/ZeroGen-flickr10k-romantic" para generación de texto
     return pipeline('text-generation', model='PahaII/ZeroGen-flickr10k-romantic')
 
 ACCESS_CODE = "1234"
@@ -30,12 +29,11 @@ if user_code == ACCESS_CODE:
     if st.button("Generar mensaje"):
         ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\n### Mensaje Final:"
-        # Prompt enfocado para generar únicamente un mensaje de amor
         prompt = (
-            "Genera UNICAMENTE un mensaje de amor personal, romántico y emotivo dirigido a mi pareja. "
-            "No incluyas ningún encabezado, instrucción, comentario o información externa. "
-            "Inspírate en las siguientes ideas sin repetirlas textualmente: " 
-            + ideas_str + "." + delimiter
+            "Genera UNICAMENTE un mensaje de amor para mi pareja, "
+            "con máximo 10 palabras, sin ningún encabezado, instrucción o comentario. "
+            "Inspírate en estas ideas (sin repetirlas literalmente): " + ideas_str +
+            "." + delimiter
         )
         
         try:
@@ -43,7 +41,7 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=250,
+                    max_length=100,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
@@ -54,6 +52,8 @@ if user_code == ACCESS_CODE:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
                 final_message = generated_text.strip()
+            # Limitar la salida a 10 palabras
+            final_message = " ".join(final_message.split()[:10])
             st.markdown("### Mensaje:")
             st.write(final_message)
         except Exception as e:
