@@ -16,7 +16,7 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install transformers torch
       - name: Run training script
         run: |
