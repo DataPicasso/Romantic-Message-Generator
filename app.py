@@ -175,12 +175,12 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* For st.success messages, ensuring the text is black */
-    [data-testid="stAlert"] {
+    /* Override colors for success messages (e.g., "🌟 ¡Bienvenida princesa! 🌟") */
+    [data-testid="stAlert"] * {
         color: black !important;
     }
-    /* For the expander header ("✨ Configuración Especial") */
-    [data-testid="stExpander"] > div:first-child {
+    /* Override color for expander header ("✨ Configuración Especial") */
+    [data-testid="stExpander"] button {
         color: black !important;
     }
 </style>
