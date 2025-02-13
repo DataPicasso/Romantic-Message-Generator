@@ -176,7 +176,7 @@ if user_code == ACCESS_CODE:
         with st.spinner("Creando magia amorosa..."):
             for _ in range(3):
                 mensaje = generar_mensaje_coherente()
-               if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
+                if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
                     # Animación de corazones
                     st.markdown("""
                     <style>
