@@ -184,9 +184,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Se agrega el hint para la contraseña mediante un st.caption
+# Agregamos el hint de la pista encima del input de contraseña
+st.markdown("**Psss, una pista: es el día de nuestro aniversario.**")
 user_code = st.text_input("Ingrese el código de acceso", type="password")
-st.caption("Psss una pista, es el día de nuestro anirvesario.")
 
 if user_code == ACCESS_CODE:
     # Usamos un contenedor personalizado en lugar de st.success
