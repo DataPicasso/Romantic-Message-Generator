@@ -28,11 +28,12 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         expresiones_str = ", ".join(EXPRESIONES)
-        # Prompt enfocado exclusivamente en la generación de un mensaje romántico
+        # Definimos un delimitador único para separar el prompt de la respuesta
+        delimiter = "\n---\nMensaje final (solo el mensaje, sin instrucciones):\n"
         prompt = (
             "Escribe un mensaje romántico, coherente, original y completo para expresar todo mi amor incondicional a mi pareja. "
             "Utiliza como inspiración, sin repetirlas literalmente, las siguientes ideas: " + expresiones_str +
-            ". El mensaje debe tener un final natural."
+            "." + delimiter
         )
         
         try:
@@ -47,6 +48,11 @@ if user_code == ACCESS_CODE:
                     repetition_penalty=1.2
                 )
             mensaje = resultado[0]['generated_text']
+            
+            # Extraemos solo la parte generada después del delimitador
+            if delimiter in mensaje:
+                mensaje = mensaje.split(delimiter, 1)[1].strip()
+            
             st.markdown("### Mensaje:")
             st.write(mensaje)
         except Exception as e:
