@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import streamlit.components.v1 as components
 
 ACCESS_CODE = "1234"
 
@@ -176,41 +177,53 @@ if user_code == ACCESS_CODE:
         with st.spinner("Creando magia amorosa..."):
             for _ in range(3):
                 mensaje = generar_mensaje_coherente()
+               # Modifica esta sección del código:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
-                    # Animación de corazones
-                    st.markdown("""
+                    # Animación de corazones mejorada
+                    components.html("""
                     <style>
-                    @keyframes hearts-fall {
-                        0% { top: -10%; }
-                        100% { top: 110%; }
-                    }
                     .heart {
                         position: fixed;
-                        animation: hearts-fall 3s linear infinite;
+                        width: 20px;
+                        height: 20px;
                         color: #ff0076;
-                        font-size: 20px;
-                        z-index: 9999;
+                        animation: fall 3s linear infinite;
                         pointer-events: none;
+                        z-index: 9999;
+                    }
+                    
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(-20vh) rotate(0deg);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(120vh) rotate(360deg);
+                            opacity: 0;
+                        }
                     }
                     </style>
+                    
                     <script>
-                    function createHearts() {
-                        const interval = setInterval(() => {
+                    function crearCorazones() {
+                        const corazones = 30;
+                        const duracion = 3000;
+                        
+                        for(let i = 0; i < corazones; i++) {
                             const heart = document.createElement('div');
                             heart.className = 'heart';
                             heart.innerHTML = '♥';
-                            heart.style.left = Math.random() * 100 + '%';
-                            heart.style.animationDelay = Math.random() * 2 + 's';
+                            heart.style.left = Math.random() * 95 + '%';
+                            heart.style.animationDelay = Math.random() * duracion + 'ms';
+                            
                             document.body.appendChild(heart);
                             
-                            setTimeout(() => heart.remove(), 3000);
-                        }, 100);
-                        
-                        setTimeout(() => clearInterval(interval), 3000);
+                            setTimeout(() => heart.remove(), duracion);
+                        }
                     }
-                    setTimeout(createHearts, 100);
+                    window.onload = crearCorazones;
                     </script>
-                    """, unsafe_allow_html=True)
+                    """, height=0)
                     
                     st.markdown(f"""
                     <div style='background:linear-gradient(45deg, #ff0076, #ff6b6b);padding:25px;border-radius:15px;color:white;margin:20px 0;'>
@@ -218,7 +231,8 @@ if user_code == ACCESS_CODE:
                         <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
                     </div>
                     """, unsafe_allow_html=True)
-
+                    st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
+                    break
                     break
             else:
                 st.error("⚠️ ¡Necesito más de tu energía amorosa! Intenta nuevamente")
