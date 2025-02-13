@@ -160,7 +160,7 @@ def generar_mensaje_coherente():
 # Interfaz mejorada
 st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 
-# Global styles for lighter colors, white background, black text, and pastel red details.
+# Global styles: white background, black text, pastel red details.
 st.markdown("""
 <style>
     body {
@@ -175,11 +175,15 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* Override colors for success messages (e.g., "🌟 ¡Bienvenida princesa! 🌟") */
+    /* For all alert messages including st.success */
     [data-testid="stAlert"] * {
         color: black !important;
     }
-    /* Override color for expander header ("✨ Configuración Especial") */
+    /* For the expander header and its contents ("✨ Configuración Especial") */
+    [data-testid="stExpander"] * {
+        color: black !important;
+    }
+    /* Additionally, target the expander button */
     [data-testid="stExpander"] button {
         color: black !important;
     }
