@@ -4,16 +4,14 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 @st.cache_resource
 def load_model():
     model_id = "Qwen/Qwen2.5-7B-Instruct"
-    # Cargamos el tokenizador y modelo con trust_remote_code=True
-    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+    # Forzamos el uso del tokenizador slow con use_fast=False
+    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True, use_fast=False)
     model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
     return model, tokenizer
 
 def generate_text(prompt, max_new_tokens=250, temperature=0.7, top_p=0.95, repetition_penalty=1.2):
     model, tokenizer = load_model()
-    # Codifica el prompt
     input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-    # Genera la respuesta
     output = model.generate(
         input_ids,
         max_new_tokens=max_new_tokens,
@@ -49,9 +47,9 @@ if user_code == ACCESS_CODE:
         ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
         prompt = (
-            "Genera un mensaje de amor, romántico, personal, coherente y emotivo para expresar mi amor incondicional a mi pareja. "
-            "No incluyas ninguna referencia externa. Utiliza como inspiración estas ideas sin repetirlas textualmente: " +
-            ideas_str + "." + delimiter
+            "Genera un mensaje de amor, romántico, personal y emotivo para expresar mi amor incondicional a mi pareja. "
+            "No incluyas ninguna referencia externa. Utiliza como inspiración estas ideas sin repetirlas textualmente: "
+            + ideas_str + "." + delimiter
         )
         
         try:
