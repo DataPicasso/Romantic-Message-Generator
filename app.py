@@ -195,7 +195,7 @@ if user_code == ACCESS_CODE:
                         <h3 style='text-align:center;margin-bottom:20px;color:#B4004E;'>💌 Mensaje Especial 💌</h3>
                         <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;color:#E91E63;'>{mensaje}</p>
                     </div>
-                    """), unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                     st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
                     break
                     
