@@ -1,26 +1,10 @@
 import streamlit as st
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import pipeline
 
 @st.cache_resource
-def load_model():
-    model_id = "Qwen/Qwen2.5-7B-Instruct"
-    # Forzamos el uso del tokenizador slow con use_fast=False
-    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True, use_fast=False)
-    model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
-    return model, tokenizer
-
-def generate_text(prompt, max_new_tokens=250, temperature=0.7, top_p=0.95, repetition_penalty=1.2):
-    model, tokenizer = load_model()
-    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-    output = model.generate(
-        input_ids,
-        max_new_tokens=max_new_tokens,
-        do_sample=True,
-        temperature=temperature,
-        top_p=top_p,
-        repetition_penalty=repetition_penalty
-    )
-    return tokenizer.decode(output[0], skip_special_tokens=True)
+def load_generator():
+    # Utilizamos el modelo mrm8488/spanish-gpt2, que está afinado para español
+    return pipeline('text-generation', model='mrm8488/spanish-gpt2')
 
 ACCESS_CODE = "1234"
 
@@ -44,17 +28,26 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        ideas_str = ", ".join(EXPRESIONES)
+        expresiones_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
         prompt = (
             "Genera un mensaje de amor, romántico, personal y emotivo para expresar mi amor incondicional a mi pareja. "
             "No incluyas ninguna referencia externa. Utiliza como inspiración estas ideas sin repetirlas textualmente: "
-            + ideas_str + "." + delimiter
+            + expresiones_str + "." + delimiter
         )
         
         try:
             with st.spinner("Generando mensaje..."):
-                generated_text = generate_text(prompt)
+                generator = load_generator()
+                result = generator(
+                    prompt,
+                    max_length=250,
+                    do_sample=True,
+                    temperature=0.7,
+                    top_p=0.95,
+                    repetition_penalty=1.2
+                )
+            generated_text = result[0]['generated_text']
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
