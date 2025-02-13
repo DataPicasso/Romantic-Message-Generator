@@ -176,15 +176,49 @@ if user_code == ACCESS_CODE:
         with st.spinner("Creando magia amorosa..."):
             for _ in range(3):
                 mensaje = generar_mensaje_coherente()
-                if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
-                    st.balloons()
+               if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
+                    # Animación de corazones
+                    st.markdown("""
+                    <style>
+                    @keyframes hearts-fall {
+                        0% { top: -10%; }
+                        100% { top: 110%; }
+                    }
+                    .heart {
+                        position: fixed;
+                        animation: hearts-fall 3s linear infinite;
+                        color: #ff0076;
+                        font-size: 20px;
+                        z-index: 9999;
+                        pointer-events: none;
+                    }
+                    </style>
+                    <script>
+                    function createHearts() {
+                        const interval = setInterval(() => {
+                            const heart = document.createElement('div');
+                            heart.className = 'heart';
+                            heart.innerHTML = '♥';
+                            heart.style.left = Math.random() * 100 + '%';
+                            heart.style.animationDelay = Math.random() * 2 + 's';
+                            document.body.appendChild(heart);
+                            
+                            setTimeout(() => heart.remove(), 3000);
+                        }, 100);
+                        
+                        setTimeout(() => clearInterval(interval), 3000);
+                    }
+                    setTimeout(createHearts, 100);
+                    </script>
+                    """, unsafe_allow_html=True)
+                    
                     st.markdown(f"""
                     <div style='background:linear-gradient(45deg, #ff0076, #ff6b6b);padding:25px;border-radius:15px;color:white;margin:20px 0;'>
                         <h3 style='text-align:center;margin-bottom:20px;'>💌 Mensaje Especial 💌</h3>
                         <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
                     </div>
                     """, unsafe_allow_html=True)
-                    st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
+
                     break
             else:
                 st.error("⚠️ ¡Necesito más de tu energía amorosa! Intenta nuevamente")
