@@ -4,14 +4,14 @@ import random
 ACCESS_CODE = "1234"
 
 EXPRESIONES = [
-    # Términos cariñosos (30% de probabilidad)
+    # Términos cariñosos
     "Mi preciosa bebita",
     "Princesa de mi corazón",
     "Amada mía",
     "Mi niña bonita",
     "Reina de mi alma",
     
-    # Tus 102 mensajes (agregados y adaptados)
+    # Mensajes adaptados
     "Eres mi razón de ser, bebita",
     "Eres mi razón de ser",  
     "Mi mundo es mejor desde que estás en él",  
@@ -112,8 +112,7 @@ EXPRESIONES = [
     "Contigo quiero envejecer",  
     "Eres mi siempre y mi para siempre",  
     "No hay lugar en el mundo donde prefiera estar que contigo",  
-    "Te amo más allá de las estrellas y hasta el infinito".  
-
+    "Te amo más allá de las estrellas y hasta el infinito",  # Coma corregida
     
     # Estructuras base para combinar
     "Mi {term} {verb} {complemento}",
@@ -134,13 +133,12 @@ def generar_mensaje():
         comp = random.choice(COMPLEMENTOS)
         return base.format(term=term, verb=verb, complemento=comp)
     
-    # 70% de probabilidad de añadir término cariñoso
-    if random.random() < 0.7:  
+    if random.random() < 0.7:
         term = random.choice([" mi " + random.choice(TERMINOS_CARIÑO), ", " + random.choice(TERMINOS_CARIÑO)])
         insert_pos = random.randint(0, len(base.split()))
         words = base.split()
         words.insert(insert_pos, term)
-        return " ".join(words[:12])  # Limitar a 12 palabras máximo
+        return " ".join(words[:12])
     
     return base
 
@@ -155,8 +153,7 @@ if user_code == ACCESS_CODE:
             palabras = mensaje.split()[:10]
             final = " ".join(palabras).capitalize()
             
-            # Verificar calidad
-            if any(term in final.lower() for term in TERMINOS_CARIÑO) and len(palabras) >=5:
+            if any(term in final.lower() for term in TERMINOS_CARIÑO) and len(palabras) >= 5:
                 st.markdown(f"### 💖 Para Mi Bebita:\n> *{final}*")
                 break
         else:
