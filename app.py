@@ -187,9 +187,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Mostrar el input y luego la pista debajo
+# Agregamos un título a la aplicación
+st.markdown("<h1 style='text-align: center; color: #ff9999;'>HOW MUCH I LOVE YOU ❤️</h1>", unsafe_allow_html=True)
+
+# Mostrar el input y debajo de él, la pista
 user_code = st.text_input("Ingrese el código de acceso", type="password")
-st.markdown("<p style='color:black;'>Psss, una pista: es el día de nuestro aniversario.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: black;'>Psss, una pista: es el día de nuestro aniversario.</p>", unsafe_allow_html=True)
 
 if user_code == ACCESS_CODE:
     # Contenedor personalizado en lugar de st.success
