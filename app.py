@@ -34,10 +34,10 @@ if user_code == ACCESS_CODE:
         # Combina las expresiones en una cadena
         expresiones_str = ", ".join(EXPRESIONES)
         
-        # Crea el prompt para que el modelo genere solo el mensaje final
+        # Nuevo prompt para incentivar una respuesta original sin repetir literal las expresiones
         prompt = (
-            "Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
-            f"Expresiones de inspiración: {expresiones_str}. Mensaje:"
+            "Genera un mensaje romántico, corto y original que exprese cuánto amo a mi pareja. "
+            f"Utiliza las siguientes ideas sin repetirlas textualmente: {expresiones_str}. Mensaje:"
         )
         
         try:
@@ -45,10 +45,10 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 resultado = generator(
                     prompt,
-                    max_length=120,  # Incrementa la longitud máxima permitida
+                    max_length=120,
                     do_sample=True,
                     temperature=0.8,
-                    top_p=0.9  # Opcional, para controlar la diversidad
+                    top_p=0.9
                 )
             mensaje = resultado[0]['generated_text']
             
