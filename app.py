@@ -166,6 +166,9 @@ st.markdown("""
         background-color: white;
         color: black;
     }
+    label {
+        color: black !important;
+    }
     .stButton>button {
         background-color: white;
         color: black;
@@ -184,12 +187,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Agregamos el hint de la pista encima del input de contraseña
-st.markdown("**Psss, una pista: es el día de nuestro aniversario.**")
+# Mostrar el input y luego la pista debajo
 user_code = st.text_input("Ingrese el código de acceso", type="password")
+st.markdown("<p style='color:black;'>Psss, una pista: es el día de nuestro aniversario.</p>", unsafe_allow_html=True)
 
 if user_code == ACCESS_CODE:
-    # Usamos un contenedor personalizado en lugar de st.success
+    # Contenedor personalizado en lugar de st.success
     st.markdown(
         """
         <div style="background-color: white; border: 1px solid #ff9999; padding: 10px; border-radius: 5px; color: black; font-size: 20px;">
