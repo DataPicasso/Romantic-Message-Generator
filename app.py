@@ -28,11 +28,11 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         expresiones_str = ", ".join(EXPRESIONES)
-        # Prompt simplificado y enfocado en la tarea
+        # Prompt enfocado exclusivamente en la generación de un mensaje romántico
         prompt = (
             "Escribe un mensaje romántico, coherente, original y completo para expresar todo mi amor incondicional a mi pareja. "
             "Utiliza como inspiración, sin repetirlas literalmente, las siguientes ideas: " + expresiones_str +
-            ". El mensaje debe terminar de forma natural."
+            ". El mensaje debe tener un final natural."
         )
         
         try:
@@ -47,7 +47,6 @@ if user_code == ACCESS_CODE:
                     repetition_penalty=1.2
                 )
             mensaje = resultado[0]['generated_text']
-            
             st.markdown("### Mensaje:")
             st.write(mensaje)
         except Exception as e:
