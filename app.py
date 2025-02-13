@@ -1,13 +1,15 @@
 import streamlit as st
 from transformers import pipeline
 
+# Función para cargar y cachear el pipeline de generación usando un modelo afinado en mensajes de amor
 @st.cache_resource
 def load_generator():
-    # Se cambia el modelo a mrm8488/spanish-gpt2
-    return pipeline('text-generation', model='mrm8488/spanish-gpt2')
+    # Usa el modelo preentrenado enfocado en mensajes románticos (sustituye por el nombre real)
+    return pipeline('text-generation', model='lmesquita/spanish-love-messages')
 
 ACCESS_CODE = "1234"
 
+# Ideas de inspiración para el mensaje (puedes ajustar estas ideas según tus necesidades)
 EXPRESIONES = [
     "tu sonrisa ilumina mis días",
     "tu mirada me hace soñar",
@@ -17,7 +19,6 @@ EXPRESIONES = [
     "eres la luz de mis ojos",
     "Te amo con mi vida",
     "Te adoro",
-    "Te amodoro, en un inodoro",
     "Eres mi bebita",
     "Eres mi princesita"
 ]
@@ -28,14 +29,13 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        expresiones_str = ", ".join(EXPRESIONES)
-        # Delimitador para separar prompt de salida
+        ideas_str = ", ".join(EXPRESIONES)
+        # Definimos un delimitador único para separar el prompt de la salida
         delimiter = "\nMensaje final:"
-        # Prompt enfocado: instrucciones claras para generar solo el mensaje romántico
+        # Prompt enfocado únicamente en generar un mensaje de amor, sin información extra
         prompt = (
-            "Genera un mensaje romántico, coherente, original y personal dirigido a mi pareja. "
-            "No incluyas referencias a libros, textos o noticias. "
-            "Inspírate en las siguientes ideas sin repetirlas literalmente: " + expresiones_str +
+            "Escribe un mensaje de amor, romántico, personal, y emotivo dirigido a mi pareja. "
+            "Utiliza como inspiración las siguientes ideas sin repetirlas textualmente: " + ideas_str +
             "." + delimiter
         )
         
