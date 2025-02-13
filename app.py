@@ -45,7 +45,7 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 resultado = generator(
                     prompt,
-                    max_length=100,  # Incrementa la longitud máxima permitida
+                    max_length=120,  # Incrementa la longitud máxima permitida
                     do_sample=True,
                     temperature=0.8,
                     top_p=0.9  # Opcional, para controlar la diversidad
