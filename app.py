@@ -175,6 +175,14 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
+    /* For st.success messages, ensuring the text is black */
+    [data-testid="stAlert"] {
+        color: black !important;
+    }
+    /* For the expander header ("✨ Configuración Especial") */
+    [data-testid="stExpander"] > div:first-child {
+        color: black !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
