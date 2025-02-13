@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-ACCESS_CODE = "1234"
+ACCESS_CODE = "28"
 
 PLANTILLAS = [
     # Plantillas originales mejoradas
@@ -184,7 +184,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-user_code = st.text_input("Ingrese el código de acceso", type="password")
+# Agregamos un hint para la contraseña en el input
+user_code = st.text_input("Ingrese el código de acceso", type="password", help="Psss una pista, es el día de nuestro anirvesario.")
 
 if user_code == ACCESS_CODE:
     # Usamos un contenedor personalizado en lugar de st.success
