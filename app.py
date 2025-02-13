@@ -177,54 +177,9 @@ if user_code == ACCESS_CODE:
         with st.spinner("Creando magia amorosa..."):
             for _ in range(3):
                 mensaje = generar_mensaje_coherente()
-               # Modifica esta sección del código:
+              # Busca esta sección en el código:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
-                    # Animación de corazones mejorada
-                    components.html("""
-                    <style>
-                    .heart {
-                        position: fixed;
-                        width: 20px;
-                        height: 20px;
-                        color: #ff0076;
-                        animation: fall 3s linear infinite;
-                        pointer-events: none;
-                        z-index: 9999;
-                    }
-                    
-                    @keyframes fall {
-                        0% {
-                            transform: translateY(-20vh) rotate(0deg);
-                            opacity: 1;
-                        }
-                        100% {
-                            transform: translateY(120vh) rotate(360deg);
-                            opacity: 0;
-                        }
-                    }
-                    </style>
-                    
-                    <script>
-                    function crearCorazones() {
-                        const corazones = 30;
-                        const duracion = 3000;
-                        
-                        for(let i = 0; i < corazones; i++) {
-                            const heart = document.createElement('div');
-                            heart.className = 'heart';
-                            heart.innerHTML = '♥';
-                            heart.style.left = Math.random() * 95 + '%';
-                            heart.style.animationDelay = Math.random() * duracion + 'ms';
-                            
-                            document.body.appendChild(heart);
-                            
-                            setTimeout(() => heart.remove(), duracion);
-                        }
-                    }
-                    window.onload = crearCorazones;
-                    </script>
-                    """, height=0)
-                    
+                    st.balloons()  # <---- ESTA LÍNEA CAMBIAR
                     st.markdown(f"""
                     <div style='background:linear-gradient(45deg, #ff0076, #ff6b6b);padding:25px;border-radius:15px;color:white;margin:20px 0;'>
                         <h3 style='text-align:center;margin-bottom:20px;'>💌 Mensaje Especial 💌</h3>
