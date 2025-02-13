@@ -1,10 +1,28 @@
 import streamlit as st
-from transformers import pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 @st.cache_resource
-def load_generator():
-    # Usamos la tarea text2text-generation para Qwen2.5 y se habilita trust_remote_code
-    return pipeline('text2text-generation', model='Qwen/Qwen2.5-7B-Instruct', trust_remote_code=True)
+def load_model():
+    model_id = "Qwen/Qwen2.5-7B-Instruct"
+    # Cargamos el tokenizador y modelo con trust_remote_code=True
+    tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(model_id, trust_remote_code=True)
+    return model, tokenizer
+
+def generate_text(prompt, max_new_tokens=250, temperature=0.7, top_p=0.95, repetition_penalty=1.2):
+    model, tokenizer = load_model()
+    # Codifica el prompt
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+    # Genera la respuesta
+    output = model.generate(
+        input_ids,
+        max_new_tokens=max_new_tokens,
+        do_sample=True,
+        temperature=temperature,
+        top_p=top_p,
+        repetition_penalty=repetition_penalty
+    )
+    return tokenizer.decode(output[0], skip_special_tokens=True)
 
 ACCESS_CODE = "1234"
 
@@ -31,24 +49,14 @@ if user_code == ACCESS_CODE:
         ideas_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
         prompt = (
-            "Genera un mensaje de amor, romántico, personal, coherente y emotivo dirigido a mi pareja. "
-            "No incluyas ninguna referencia externa. "
-            "Inspírate en las siguientes ideas sin repetirlas literalmente: " 
-            + ideas_str + "." + delimiter
+            "Genera un mensaje de amor, romántico, personal, coherente y emotivo para expresar mi amor incondicional a mi pareja. "
+            "No incluyas ninguna referencia externa. Utiliza como inspiración estas ideas sin repetirlas textualmente: " +
+            ideas_str + "." + delimiter
         )
         
         try:
             with st.spinner("Generando mensaje..."):
-                generator = load_generator()
-                result = generator(
-                    prompt,
-                    max_new_tokens=250,
-                    do_sample=True,
-                    temperature=0.7,
-                    top_p=0.95,
-                    repetition_penalty=1.2
-                )
-            generated_text = result[0]['generated_text']
+                generated_text = generate_text(prompt)
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
