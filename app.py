@@ -34,10 +34,11 @@ if user_code == ACCESS_CODE:
         # Combina las expresiones en una cadena
         expresiones_str = ", ".join(EXPRESIONES)
         
-        # Nuevo prompt para incentivar una respuesta original sin repetir literal las expresiones
+        # Nuevo prompt con instrucciones más claras para obtener un mensaje coherente
         prompt = (
-            "Genera un mensaje romántico, corto y original que exprese cuánto amo a mi pareja. "
-            f"Utiliza las siguientes ideas sin repetirlas textualmente: {expresiones_str}. Mensaje:"
+            "Crea un mensaje romántico, coherente y original para expresar todo mi amor por mi pareja. "
+            "Utiliza como inspiración las siguientes ideas, pero no las repitas textualmente: "
+            f"{expresiones_str}. Mensaje:"
         )
         
         try:
@@ -52,7 +53,7 @@ if user_code == ACCESS_CODE:
                 )
             mensaje = resultado[0]['generated_text']
             
-            # Extrae solo la parte del mensaje que sigue a "Mensaje:"
+            # Extrae la parte del mensaje que sigue a "Mensaje:"
             if "Mensaje:" in mensaje:
                 mensaje = mensaje.split("Mensaje:", 1)[1].strip()
             
