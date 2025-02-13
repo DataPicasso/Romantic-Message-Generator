@@ -1,15 +1,13 @@
 import streamlit as st
 from transformers import pipeline
 
-# Función para cargar y cachear el pipeline de generación usando un modelo afinado en mensajes de amor
 @st.cache_resource
 def load_generator():
-    # Usa el modelo preentrenado enfocado en mensajes románticos (sustituye por el nombre real)
-    return pipeline('text-generation', model='lmesquita/spanish-love-messages')
+    # Utiliza el modelo "PlanTL-GOB-ES/gpt2-base-spanish"
+    return pipeline('text-generation', model='PlanTL-GOB-ES/gpt2-base-spanish')
 
 ACCESS_CODE = "1234"
 
-# Ideas de inspiración para el mensaje (puedes ajustar estas ideas según tus necesidades)
 EXPRESIONES = [
     "tu sonrisa ilumina mis días",
     "tu mirada me hace soñar",
@@ -19,6 +17,7 @@ EXPRESIONES = [
     "eres la luz de mis ojos",
     "Te amo con mi vida",
     "Te adoro",
+    "Te amodoro, en un inodoro",
     "Eres mi bebita",
     "Eres mi princesita"
 ]
@@ -29,13 +28,12 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        ideas_str = ", ".join(EXPRESIONES)
-        # Definimos un delimitador único para separar el prompt de la salida
+        expresiones_str = ", ".join(EXPRESIONES)
         delimiter = "\nMensaje final:"
-        # Prompt enfocado únicamente en generar un mensaje de amor, sin información extra
         prompt = (
-            "Escribe un mensaje de amor, romántico, personal, y emotivo dirigido a mi pareja. "
-            "Utiliza como inspiración las siguientes ideas sin repetirlas textualmente: " + ideas_str +
+            "Escribe un mensaje de amor, romántico, personal, coherente y emotivo, "
+            "dirigido únicamente a mi pareja. No incluyas referencias a libros, concursos o textos administrativos. "
+            "Inspírate en las siguientes ideas sin repetirlas textualmente: " + expresiones_str +
             "." + delimiter
         )
         
@@ -51,7 +49,6 @@ if user_code == ACCESS_CODE:
                     repetition_penalty=1.2
                 )
             generated_text = result[0]['generated_text']
-            # Extrae solo la parte generada después del delimitador
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
