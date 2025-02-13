@@ -174,14 +174,6 @@ st.markdown("""
     div.stApp {
         background-color: white;
     }
-    /* Sobrescribimos los estilos del st.success */
-    div[data-testid="stAlert"].stAlertSuccess {
-        background-color: white !important;
-        border: 1px solid #ff9999 !important;
-    }
-    div[data-testid="stAlert"].stAlertSuccess > div {
-        color: black !important;
-    }
     /* Para la cabecera del expander ("✨ Configuración Especial") */
     [data-testid="stExpander"] * {
         color: black !important;
@@ -195,8 +187,15 @@ st.markdown("""
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    # Con los nuevos estilos, este st.success se mostrará con fondo blanco y texto negro
-    st.success("🌟 ¡Bienvenida princesa! 🌟")
+    # Usamos un contenedor personalizado en lugar de st.success
+    st.markdown(
+        """
+        <div style="background-color: white; border: 1px solid #ff9999; padding: 10px; border-radius: 5px; color: black; font-size: 20px;">
+            🌟 ¡Bienvenida princesa! 🌟
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     with st.expander("✨ Configuración Especial"):
         col1, col2 = st.columns(2)
@@ -212,9 +211,9 @@ if user_code == ACCESS_CODE:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
                     st.balloons()
                     st.markdown(f"""
-                    <div style='background: white; padding:25px; border-radius:15px; color: black; margin:20px 0; border: 2px solid #ff9999;'>
-                        <h3 style='text-align:center;margin-bottom:20px; color: #ff9999;'>💌 Mensaje Especial 💌</h3>
-                        <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
+                    <div style="background: white; padding:25px; border-radius:15px; color: black; margin:20px 0; border: 2px solid #ff9999;">
+                        <h3 style="text-align:center; margin-bottom:20px; color: #ff9999;">💌 Mensaje Especial 💌</h3>
+                        <p style="font-size:20px; line-height:1.6; text-align:center; font-family:Helvetica;">{mensaje}</p>
                     </div>
                     """, unsafe_allow_html=True)
                     st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
