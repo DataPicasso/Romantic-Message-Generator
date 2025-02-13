@@ -3,6 +3,7 @@ from transformers import pipeline
 
 @st.cache_resource
 def load_generator():
+    # Usamos mrm8488/spanish-gpt2, un modelo en español
     return pipeline('text-generation', model='mrm8488/spanish-gpt2')
 
 ACCESS_CODE = "1234"
@@ -27,12 +28,15 @@ if user_code == ACCESS_CODE:
     st.success("¡Bienvenida princesa!")
     
     if st.button("Generar mensaje"):
-        ideas_str = ", ".join(EXPRESIONES)
-        delimiter = "\nMensaje final:"
+        expresiones_str = ", ".join(EXPRESIONES)
+        # Delimitador para separar el mensaje final del prompt
+        delimiter = "\n### Mensaje Final:"
         prompt = (
-            "Genera directamente un mensaje de amor apasionado, personal y emotivo para mi pareja. "
-            "El mensaje debe expresar mi amor incondicional de forma poética y sincera, sin incluir instrucciones ni explicaciones sobre el proceso. "
-            "Inspírate en estas ideas, pero solo produce el mensaje final: " + ideas_str + "." + delimiter
+            "Genera UNICAMENTE un mensaje de amor para mi pareja, sin ningún encabezado, instrucción, comentario o explicación. "
+            "El mensaje debe ser personal, romántico, emotivo y coherente, expresando mi amor incondicional. "
+            "No incluyas ningún otro tipo de información o referencia externa. "
+            "Inspírate en estas ideas (sin repetirlas textualmente): " + expresiones_str +
+            "." + delimiter
         )
         
         try:
@@ -40,13 +44,14 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_length=250,
+                    max_length=300,
                     do_sample=True,
                     temperature=0.7,
                     top_p=0.95,
                     repetition_penalty=1.2
                 )
             generated_text = result[0]['generated_text']
+            # Extrae únicamente el texto que se encuentra después del delimitador
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
