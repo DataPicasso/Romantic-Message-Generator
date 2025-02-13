@@ -3,7 +3,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 
 @st.cache_resource
 def load_generator():
-    model_name = "DeepESP/gpt2-spanish"
+    model_name = "IIC/bert-base-spanish-wwm-cased-finetuned-romantic"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
     return pipeline('text-generation', model=model, tokenizer=tokenizer)
@@ -13,49 +13,52 @@ ACCESS_CODE = "1234"
 EXPRESIONES = [
     "tu sonrisa ilumina mis días",
     "tu mirada me hace soñar",
-    "cada instante a tu lado es un regalo",
-    "eres mi inspiración",
-    "mi corazón late por ti",
-    "eres la luz de mis ojos",
-    "te amo con toda mi alma",
-    "eres mi razón de ser",
-    "contigo el tiempo se detiene",
-    "tu amor es mi fortaleza"
+    "cada instante contigo es un regalo",
+    "eres mi inspiración constante",
+    "mi corazón late al ritmo de tu voz",
+    "en tus ojos encuentro mi hogar",
+    "tu amor es mi mayor fortaleza",
+    "contigo el tiempo pierde sentido",
+    "eres la melodía de mi alma",
+    "tus abrazos son mi refugio"
 ]
 
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    st.success("¡Bienvenida princesa!")
+    st.success("¡Bienvenida mi amor!")
     
-    if st.button("Generar mensaje"):
-        prompt = (
-            "Escribe un mensaje romántico y emotivo de máximo 10 palabras usando estas ideas: " 
-            + ", ".join(EXPRESIONES) + ". Mensaje:"
-        )
+    if st.button("Generar mensaje especial"):
+        prompt = f"Escribe un mensaje romántico coherente de 10 palabras máximo usando estos conceptos: {', '.join(EXPRESIONES)}. El mensaje debe ser:"
         
         try:
-            with st.spinner("Generando mensaje..."):
+            with st.spinner("Creando algo único para ti..."):
                 generator = load_generator()
                 result = generator(
                     prompt,
-                    max_new_tokens=30,
+                    max_length=30,
                     do_sample=True,
-                    temperature=0.9,
-                    top_k=50,
-                    top_p=0.95,
-                    repetition_penalty=1.5,
-                    num_return_sequences=1
+                    temperature=0.5,  # Reducido para más coherencia
+                    top_p=0.9,
+                    repetition_penalty=1.3,
+                    num_return_sequences=1,
+                    pad_token_id=generator.tokenizer.eos_token_id
                 )
-            generated_text = result[0]['generated_text']
-            # Extract only the new generated part
-            final_message = generated_text.replace(prompt, "").strip().split(".")[0]
-            # Ensure max 10 words
-            final_message = " ".join(final_message.split()[:10])
-            st.markdown("### Tu mensaje especial:")
-            st.success(f"💖 {final_message} 💖")
+            
+            full_text = result[0]['generated_text']
+            # Extraer solo la parte nueva del mensaje
+            final_message = full_text.split(prompt)[-1].strip()
+            
+            # Limpieza y formateo
+            final_message = final_message.split(".")[0].replace('"', '').replace("'", '')
+            words = final_message.split()[:10]
+            final_message = ' '.join(words).capitalize()
+            
+            st.markdown("### 💌 Mensaje especial:")
+            st.success(f"✨ {final_message} ✨")
+            
         except Exception as e:
-            st.error(f"Error al generar el mensaje: {e}")
+            st.error(f"Error: {str(e)}")
 else:
     if user_code:
-        st.error("Código de acceso incorrecto.")
+        st.error("Código incorrecto, prueba con '1234'")
