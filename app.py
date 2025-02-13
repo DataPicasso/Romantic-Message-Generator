@@ -22,7 +22,6 @@ EXPRESIONES = [
     "Te amodoro, en un inodoro",
     "Eres mi bebita",
     "Eres mi princesita"
-    
 ]
 
 # Solicita al usuario el código de acceso (tipo password)
@@ -37,14 +36,20 @@ if user_code == ACCESS_CODE:
         
         # Crea el prompt para que el modelo genere solo el mensaje final
         prompt = (
-            "Genera un mensaje romántico y único para expresar cuánto amo a mi pareja basate en las expresiones de inspiración. "
+            "Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
             f"Expresiones de inspiración: {expresiones_str}. Mensaje:"
         )
         
         try:
             with st.spinner("Cargando modelo y generando mensaje..."):
                 generator = load_generator()
-                resultado = generator(prompt, max_length=60, do_sample=True, temperature=0.8)
+                resultado = generator(
+                    prompt,
+                    max_length=100,  # Incrementa la longitud máxima permitida
+                    do_sample=True,
+                    temperature=0.8,
+                    top_p=0.9  # Opcional, para controlar la diversidad
+                )
             mensaje = resultado[0]['generated_text']
             
             # Extrae solo la parte del mensaje que sigue a "Mensaje:"
