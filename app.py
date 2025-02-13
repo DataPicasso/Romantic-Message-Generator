@@ -28,11 +28,13 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         expresiones_str = ", ".join(EXPRESIONES)
+        # Delimitador para separar prompt de salida
         delimiter = "\nMensaje final:"
+        # Prompt enfocado: NO incluir referencias a libros, textos, noticias u otros contenidos literarios
         prompt = (
-            "Escribe un mensaje romántico, coherente, original y personal dirigido a mi pareja, "
-            "sin incluir referencias a libros, películas, noticias u otras fuentes externas. "
-            "Utiliza como inspiración las siguientes ideas sin repetirlas textualmente: " + expresiones_str +
+            "Escribe un mensaje romántico, personal, coherente y original para expresar todo mi amor incondicional a mi pareja. "
+            "No incluyas ninguna referencia a libros, textos, noticias u otra información externa. "
+            "Inspírate en las siguientes ideas sin repetirlas literalmente: " + expresiones_str +
             "." + delimiter
         )
         
@@ -48,6 +50,7 @@ if user_code == ACCESS_CODE:
                     repetition_penalty=1.2
                 )
             generated_text = result[0]['generated_text']
+            # Extrae solo el mensaje generado después del delimitador
             if delimiter in generated_text:
                 final_message = generated_text.split(delimiter, 1)[1].strip()
             else:
