@@ -25,10 +25,10 @@ if user_code == ACCESS_CODE:
         # Combina las expresiones en una sola cadena
         expresiones_str = ", ".join(EXPRESIONES)
         
-        # Crea el prompt combinando las expresiones predefinidas
+        # Crea el prompt, pero formatea para separar el input del mensaje generado
         prompt = (
-            f"Utilizando las siguientes expresiones: {expresiones_str}\n"
-            "Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja:"
+            f"Genera un mensaje romántico, corto y único para expresar cuánto amo a mi pareja. "
+            f"Expresiones de inspiración: {expresiones_str}. Mensaje:"
         )
         
         # Crea el pipeline de generación de texto con un modelo en español
@@ -37,6 +37,10 @@ if user_code == ACCESS_CODE:
         # Genera el mensaje; puedes ajustar parámetros como max_length y temperature
         resultado = generator(prompt, max_length=60, do_sample=True, temperature=0.8)
         mensaje = resultado[0]['generated_text']
+        
+        # Si el resultado incluye el prompt, se separa y se muestra solo el mensaje final.
+        if "Mensaje:" in mensaje:
+            mensaje = mensaje.split("Mensaje:", 1)[1].strip()
         
         st.markdown("### Tu mensaje romántico:")
         st.write(mensaje)
