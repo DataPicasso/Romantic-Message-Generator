@@ -28,18 +28,18 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         expresiones_str = ", ".join(EXPRESIONES)
-        # Definimos un delimitador único para separar el prompt de la respuesta
-        delimiter = "\n---\nMensaje final (solo el mensaje, sin instrucciones):\n"
+        # Usamos un delimitador único para separar el prompt de la respuesta
+        delimiter = "\nMensaje final:"
         prompt = (
-            "Escribe un mensaje romántico, coherente, original y completo para expresar todo mi amor incondicional a mi pareja. "
-            "Utiliza como inspiración, sin repetirlas literalmente, las siguientes ideas: " + expresiones_str +
+            "Solo genera un mensaje romántico, coherente, original y completo para expresar mi amor incondicional a mi pareja. "
+            "Inspírate en estas ideas, sin repetirlas textualmente: " + expresiones_str +
             "." + delimiter
         )
         
         try:
-            with st.spinner("Cargando modelo y generando mensaje..."):
+            with st.spinner("Generando mensaje..."):
                 generator = load_generator()
-                resultado = generator(
+                result = generator(
                     prompt,
                     max_length=250,
                     do_sample=True,
@@ -47,14 +47,14 @@ if user_code == ACCESS_CODE:
                     top_p=0.95,
                     repetition_penalty=1.2
                 )
-            mensaje = resultado[0]['generated_text']
-            
-            # Extraemos solo la parte generada después del delimitador
-            if delimiter in mensaje:
-                mensaje = mensaje.split(delimiter, 1)[1].strip()
-            
+            generated_text = result[0]['generated_text']
+            # Extrae solo la parte posterior al delimitador
+            if delimiter in generated_text:
+                final_message = generated_text.split(delimiter, 1)[1].strip()
+            else:
+                final_message = generated_text.strip()
             st.markdown("### Mensaje:")
-            st.write(mensaje)
+            st.write(final_message)
         except Exception as e:
             st.error(f"Error al generar el mensaje: {e}")
 else:
