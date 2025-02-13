@@ -28,13 +28,11 @@ if user_code == ACCESS_CODE:
     
     if st.button("Generar mensaje"):
         expresiones_str = ", ".join(EXPRESIONES)
-        
-        # Nuevo prompt con instrucciones detalladas para generar un mensaje completo y coherente
+        # Prompt simplificado y enfocado en la tarea
         prompt = (
-            "Crea un mensaje romántico, coherente y original, dirigido a mi pareja, que exprese mi amor incondicional. "
-            "Utiliza como inspiración las siguientes ideas sin repetirlas literalmente: "
-            f"{expresiones_str}. "
-            "Escribe un mensaje completo que tenga sentido y termine de forma natural."
+            "Escribe un mensaje romántico, coherente, original y completo para expresar todo mi amor incondicional a mi pareja. "
+            "Utiliza como inspiración, sin repetirlas literalmente, las siguientes ideas: " + expresiones_str +
+            ". El mensaje debe terminar de forma natural."
         )
         
         try:
@@ -42,12 +40,14 @@ if user_code == ACCESS_CODE:
                 generator = load_generator()
                 resultado = generator(
                     prompt,
-                    max_length=250,  # Permite más tokens para completar la idea
+                    max_length=250,
                     do_sample=True,
-                    temperature=0.7,  # Temperatura ligeramente baja para mayor coherencia
-                    top_p=0.95        # Aumenta la diversidad sin perder cohesión
+                    temperature=0.7,
+                    top_p=0.95,
+                    repetition_penalty=1.2
                 )
             mensaje = resultado[0]['generated_text']
+            
             st.markdown("### Mensaje:")
             st.write(mensaje)
         except Exception as e:
