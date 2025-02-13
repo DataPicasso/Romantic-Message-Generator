@@ -1,27 +1,7 @@
 import streamlit as st
 import random
-import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 ACCESS_CODE = "1234"
-
-# CSS centralizado para la app
-st.markdown("""
-<style>
-.stApp {
-    background-color: #FFFFFF !important;
-}
-p, h1, h2, h3, h4, h5, h6 {
-    color: #333333 !important;
-}
-.footer {
-    text-align: center;
-    padding: 15px;
-    color: #E91E63;
-    font-family: cursive;
-}
-</style>
-""", unsafe_allow_html=True)
 
 PLANTILLAS = [
     # Plantillas originales mejoradas
@@ -35,6 +15,8 @@ PLANTILLAS = [
     "Cada mañana al despertar, {term}, {message}",
     "{message}, mi preciosa {term}",
     "{message}, porque eres mi {term}",
+    
+    # 50 nuevas plantillas
     "En el susurro del viento, {term}, {message}",
     "{term}, mi amor eterno: {message}",
     "Bajo las estrellas, {term}, {message}",
@@ -94,6 +76,8 @@ MENSAJES_BASE = [
     "eres la razón de mi felicidad",
     "tu amor ilumina mi camino",
     "nada se compara a tu sonrisa",
+    
+    # 50 nuevos mensajes
     "tu esencia transforma mi realidad",
     "en tus abrazos encuentro mi hogar",
     "tu fuerza es mi inspiración diaria",
@@ -149,7 +133,7 @@ MENSAJES_BASE = [
     "tu amor trasciende lo terrenal"
 ]
 
-TERMINOS_CARIÑO = ["bebita", "princesa", "reina", "amada", "vida", "inspiración", "destino"]
+TERMINOS_CARIÑO = ["bebita", "princesa", "reina", "amada", "vida", "musa", "esencia", "compañera", "inspiración", "destino"]
 
 def generar_mensaje_coherente():
     plantilla = random.choice(PLANTILLAS)
@@ -178,12 +162,12 @@ def generar_mensaje_coherente():
     return mensaje_final
 
 # Interfaz mejorada
-
+st.set_page_config(page_title="Generador de Amor", page_icon="💖")
 
 user_code = st.text_input("Ingrese el código de acceso", type="password")
 
 if user_code == ACCESS_CODE:
-    st.success("🌟 ¡Bienvenida princesa! 🌟")
+    st.success("🌟 ¡Bienvenida a tu Generador de Amor Personal! 🌟")
     
     with st.expander("✨ Configuración Especial"):
         col1, col2 = st.columns(2)
@@ -196,19 +180,16 @@ if user_code == ACCESS_CODE:
         with st.spinner("Creando magia amorosa..."):
             for _ in range(3):
                 mensaje = generar_mensaje_coherente()
-              # Busca esta sección en el código:
                 if len(mensaje.split()) >= 6 and any(term in mensaje.lower() for term in TERMINOS_CARIÑO):
-                    st.balloons()  # <---- ESTA LÍNEA CAMBIAR
-                    # Por esto:
+                    st.balloons()
                     st.markdown(f"""
-                    <div style='background:#FFFFFF;padding:25px;border-radius:15px;margin:20px 0;border: 2px solid #FF0076;box-shadow: 0 4px 8px rgba(233,30,99,0.1);'>
-                        <h3 style='text-align:center;margin-bottom:20px;color:#B4004E;'>💌 Mensaje Especial 💌</h3>
-                        <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;color:#E91E63;'>{mensaje}</p>
+                    <div style='background:linear-gradient(45deg, #ff0076, #ff6b6b);padding:25px;border-radius:15px;color:white;margin:20px 0;'>
+                        <h3 style='text-align:center;margin-bottom:20px;'>💌 Mensaje Especial 💌</h3>
+                        <p style='font-size:20px;line-height:1.6;text-align:center;font-family:Helvetica;'>{mensaje}</p>
                     </div>
-                    """)
+                    """, unsafe_allow_html=True)
                     st.download_button("📥 Descargar Mensaje", mensaje, file_name="mensaje_amor.txt")
                     break
-                    
             else:
                 st.error("⚠️ ¡Necesito más de tu energía amorosa! Intenta nuevamente")
 
@@ -219,9 +200,16 @@ else:
 # Sección de footer personalizado
 st.markdown("---")
 st.markdown("""
-
+<style>
+.footer {
+    text-align: center;
+    padding: 15px;
+    color: #ff69b4;
+    font-family: cursive;
+}
+</style>
 <div class="footer">
-    ✨ Sistema creado con el corazón por tu bebito ✨<br>
-    💝 Cada mensaje contiene parte de mi corazón 💝
+    ✨ Sistema creado con el corazón por tu eterno admirador ✨<br>
+    💝 Cada mensaje contiene parte de mi alma 💝
 </div>
 """, unsafe_allow_html=True)
