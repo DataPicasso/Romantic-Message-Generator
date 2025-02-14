@@ -246,6 +246,6 @@ st.markdown("""
 </style>
 <div class="footer">
     ✨ Sistema creado con el corazón por tu bebito ✨<br>
-    💝 Cada mensaje contiene parte de mi corazón 💝
+    💝💝
 </div>
 """, unsafe_allow_html=True)
