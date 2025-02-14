@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-ACCESS_CODE = "28"
+ACCESS_CODE = "18"
 
 PLANTILLAS = [
     # Plantillas originales mejoradas
