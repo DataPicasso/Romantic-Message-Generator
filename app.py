@@ -129,7 +129,7 @@ MENSAJES_BASE = [
     "tu amor trasciende lo terrenal"
 ]
 
-TERMINOS_CARIÑO = ["bebita", "princesa", "reina", "amada", "vida", "inspiración", "destino"]
+TERMINOS_CARIÑO = ["bebita", "princesa", "reina", "amada", "vida", "preciosa", "muñeca" ]
 
 def generar_mensaje_coherente():
     plantilla = random.choice(PLANTILLAS)
